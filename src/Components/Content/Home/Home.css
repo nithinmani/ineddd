@@ -3,6 +3,14 @@
   
    
 }
+.mainImg{
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: right top;
+    margin-top: 70px;
+    padding: 60px 0;
+}
 .searchBox{
     height: 2rem;
     width: 15rem;
@@ -10,18 +18,7 @@
 .search{
     margin-top: 2rem;
 }
-.left{
-    margin-left: 2rem;
-}
-.right{
-    height:min-content
-}
-.content{
-    padding-top: 140px;
-    height: 190px;
-    display: grid;
-    grid-template-areas: 'left  right';
-}
+
 .title{
     font-size: 5rem;
     font-weight: 800;
