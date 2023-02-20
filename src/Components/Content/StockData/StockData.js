@@ -1,7 +1,6 @@
-// import React, { useState, useEffect } from "react";
-
 import React, { useState, useEffect } from "react";
 import "./StockData.css";
+import refresh from './refresh.png'
 
 export default function StockList() {
   const [stocks, setStocks] = useState([]);
@@ -13,15 +12,6 @@ export default function StockList() {
       "X-RapidAPI-Host": "latest-stock-price.p.rapidapi.com",
     },
   };
-  useEffect(() => {
-    fetch(
-      "https://latest-stock-price.p.rapidapi.com/price?Indices=NIFTY%2050",
-      options
-    )
-      .then((response) => response.json())
-      .then((data) => setStocks(data))
-      .catch((error) => console.error(error));
-  }, []);
 
   const handleRefreshClick = () => {
     fetch(
@@ -29,54 +19,71 @@ export default function StockList() {
       options
     )
       .then((response) => response.json())
-      .then((data) => setStocks(data))
+      .then((data) => {
+        setStocks(data);
+      })
       .catch((error) => console.error(error));
   };
+
+  useEffect(() => {
+    fetch(
+      "https://latest-stock-price.p.rapidapi.com/price?Indices=NIFTY%2050",
+      options
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setStocks(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  // sort stocks by pChange and get top gainers and losers
   const sortedStocks = stocks.sort((a, b) => b.pChange - a.pChange);
   const topGainers = sortedStocks.slice(0, 5);
-  const topLosers = sortedStocks.slice(sortedStocks.length - 5).reverse();
+  const topLosers = sortedStocks.slice(-5).reverse();
 
   return (
     <div className="TopGainerPage">
-      <button onClick={handleRefreshClick}>Refresh</button>
+      <button onClick={handleRefreshClick} className="rounded-circle mx-5"><img src={refresh} alt="" className="refreshButtonImage rounded-circle"/></button>
       <div className="row px-5 py-3">
-      <h1>TOP GAINERS</h1>
-      <table className="TopGainerTable">
-        <thead>
-          <tr>
-            <th>Symbol</th>
-            <th>Open</th>
-            <th>High</th>
-            <th>Low</th>
-            <th>Value</th>
-            <th>%Change</th>
-          </tr>
-        </thead>
-        <tbody>
-          {topGainers.map((topGainers, index) => (
-            <tr key={index}>
-              <td>{topGainers.symbol}</td>
-              <td>{topGainers.open}</td>
-              <td>{topGainers.dayHigh}</td>
-              <td>{topGainers.dayLow}</td>
-              <td>{topGainers.lastPrice}</td>
-              <td>{topGainers.pChange}%</td>
+        <h1>TOP GAINERS</h1>
+        <table className="TopGainerTable">
+          <thead>
+            <tr className="TopGainerHead">
+              <th className="bg-success text-white">Symbol</th>
+              <th className="bg-success text-white">Open</th>
+              <th className="bg-success text-white">High</th>
+              <th className="bg-success text-white">Low</th>
+              <th className="bg-success text-white">Value</th>
+              <th className="bg-success text-white">%Change</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {topGainers.map((topGainer, index) => (
+              <tr key={index}>
+                <td>{topGainer.symbol}</td>
+                <td>{topGainer.open}</td>
+                <td>{topGainer.dayHigh}</td>
+                <td>{topGainer.dayLow}</td>
+                <td>{topGainer.lastPrice}</td>
+                <td className="text-success">{topGainer.pChange}%</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
       <div className="row p-5">
-      <h1>TOP LOSERS</h1>
-      <table className="TopGainerTable">
-        <thead>
-          <tr>
-            <th>Symbol</th>
-            <th>Open</th>
-            <th>High</th>
-            <th>Low</th>
-            <th>Value</th>
-            <th>%Change</th>
+        <h1>TOP LOSERS</h1>
+        <table className="TopGainerTable">
+          <thead>
+            <tr>
+              <th className="bg-danger text-white">Symbol</th>
+              <th className="bg-danger text-white">Open</th>
+              <th className="bg-danger text-white">High</th>
+              <th className="bg-danger text-white">Low</th>
+
+            <th className="bg-danger text-white">Value</th>
+            <th className="bg-danger text-white">%Change</th>
           </tr>
         </thead>
         <tbody>
@@ -87,7 +94,7 @@ export default function StockList() {
               <td>{topLosers.dayHigh}</td>
               <td>{topLosers.dayLow}</td>
               <td>{topLosers.lastPrice}</td>
-              <td>{topLosers.pChange}%</td>
+              <td className="text-danger">{topLosers.pChange}%</td>
             </tr>
           ))}
         </tbody>

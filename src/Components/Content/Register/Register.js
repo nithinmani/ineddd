@@ -1,10 +1,37 @@
-import React from "react";
-import "./Register.css";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Register() {
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function registerUser(event) {
+    event.preventDefault();
+    const response = await fetch("http://localhost:1337/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+
+    if (data.status === "ok") {
+      navigate("/login");
+    }
+  }
+
   return (
     <div>
-      <section className="vh-100" style={{ backgroundColor: "#eee" }}>
+      <section className="vh-100 p-3" style={{ backgroundColor: "#eee" }}>
         <div>
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-lg-12 col-xl-11">
@@ -15,7 +42,7 @@ function Register() {
                       <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
                         Sign up
                       </p>
-                      <form className="mx-1 mx-md-4">
+                      <form className="mx-1 mx-md-4" onSubmit={registerUser}>
                         <div className="d-flex flex-row align-items-center mb-4">
                           <i className="fas fa-user fa-lg me-3 fa-fw" />
                           <div className="form-outline flex-fill mb-0">
@@ -23,6 +50,9 @@ function Register() {
                               type="text"
                               id="form3Example1c"
                               className="form-control"
+                              name="name"
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
                             />
                             <label
                               className="form-label"
@@ -39,6 +69,9 @@ function Register() {
                               type="email"
                               id="form3Example3c"
                               className="form-control"
+                              name="email"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
                             />
                             <label
                               className="form-label"
@@ -55,6 +88,9 @@ function Register() {
                               type="password"
                               id="form3Example4c"
                               className="form-control"
+                              name="password"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
                             />
                             <label
                               className="form-label"
@@ -71,6 +107,7 @@ function Register() {
                               type="password"
                               id="form3Example4cd"
                               className="form-control"
+                              name="repeatPassword"
                             />
                             <label
                               className="form-label"
@@ -97,7 +134,7 @@ function Register() {
                         </div>
                         <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                           <button
-                            type="button"
+                            type="submit"
                             className="btn btn-primary btn-lg"
                           >
                             Register
@@ -108,7 +145,7 @@ function Register() {
                           style={{ color: "#393f81" }}
                         >
                           Already have an account?
-                          <a href="" style={{ color: "#393f81" }}>
+                          <a href="/login" style={{ color: "#393f81" }}>
                             Login here
                           </a>
                         </p>

@@ -6,6 +6,7 @@ import Login from './Components/Content/Login/Login';
 import Register from './Components/Content/Register/Register';
 import Portfolio from './Components/Content/Portfolio/Portfolio';
 import Addstock from './Components/Content/Addstock/Addstock';
+import Tutorial from './Components/Content/Tutorial/Tutorial';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <Route path="/profile" element={<Portfolio/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
-        <Route path="/AddStock" element={<Addstock/>}/>
+        <Route path="/Addstock" element={<Addstock/>}/>
+        <Route path="Tutorial" element={<Tutorial/>}/>
         </Routes>
       </div>
     </div>

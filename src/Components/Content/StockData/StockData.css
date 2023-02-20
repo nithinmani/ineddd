@@ -25,4 +25,6 @@
   .TopGainerTable tr:hover {
     background-color: #ddd;
   }
-  
+  .refreshButtonImage{
+    width: 50px;
+  }

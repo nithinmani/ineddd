@@ -1,7 +1,33 @@
 import React from "react";
 import "./Addstock.css";
+import {useForm} from 'react-hook-form';
 
 function Addstock() {
+  const {register,handleSubmit}=useForm();
+  const onSubmit= async data=>{
+    const DOP= data.DOP;
+    const VOP= data.VOP;
+    const stockVolume=data.stockVolume;
+    const company = data.company
+    console.log(JSON.stringify({
+      DOP,
+      VOP,
+      stockVolume,company
+    }));
+    const response = await fetch("http://localhost:1337/api/Addstock", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        DOP,
+        VOP,
+        stockVolume,company
+      }),
+    });
+    }
+  
+
   return (
     <div className="row"
       style={{
@@ -11,7 +37,6 @@ function Addstock() {
         padding: "20px",
       }}
     >
-      
       <div className="AddStockPage col-lg-12 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
         <div className="row">
           <div className="col-md-8">
@@ -43,15 +68,15 @@ function Addstock() {
               <div className="card-body">
                 <p className="text-uppercase h4 text-font">Company:</p>
                 <div className="row">
-                  <select className="select p-3">
-                    <option value={1}>TCS</option>
-                    <option value={2}>GOOGLE</option>
-                    <option value={3}>APPLE</option>
-                    <option value={4}>AMAZON</option>
-                    <option value={5}>SAMSUNG</option>
-                    <option value={6}>INFOSYS</option>
-                    <option value={7}>EY</option>
-                    <option value={8}>IBS</option>
+                  <select className="select p-3" {...register("company")}>
+                    <option value={"TCS"}>TCS</option>
+                    <option value={"GOOGLE"}>GOOGLE</option>
+                    <option value={"APPLE"}>APPLE</option>
+                    <option value={"AMAZON"}>AMAZON</option>
+                    <option value={"SAMSUNG"}>SAMSUNG</option>
+                    <option value={"INFOSYS"}>INFOSYS</option>
+                    <option value={"EY"}>EY</option>
+                    <option value={"IBS"}>IBS</option>
                   </select>
                 </div>
               </div>
@@ -63,7 +88,7 @@ function Addstock() {
                 <h5 className="mb-0 text-font text-uppercase">Stock Details</h5>
               </div>
               <div className="card-body">
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="row mb-4">
                     <div className="col">
                       <div className="form-outline">
@@ -74,6 +99,7 @@ function Addstock() {
                           type="date"
                           id="form11Example1"
                           className="form-control"
+                          {...register("DOP")}
                         />
                       </div>
                     </div>
@@ -87,6 +113,7 @@ function Addstock() {
                       type="number"
                       id="form11Example3"
                       className="form-control"
+                      {...register("VOP")}
                     />
                   </div>
                   {/* Text input */}
@@ -98,21 +125,18 @@ function Addstock() {
                       type="input"
                       id="form11Example4"
                       className="form-control"
+                      {...register("stockVolume")}
                     />
                   </div>
                   <div className="text-center">
-                    <button
-                      type="button"
+                 
+                     <button
+                      type="submit"
                       className="btn button-order col-md-10 bg-success text-white"
-                    >
-                      <a
-                        href="portfolio.html"
-                        className="text-white"
-                        style={{ textDecoration: "none" }}
-                      >
-                        Add stock
-                      </a>
-                    </button>
+                    > Add stock
+                        </button>
+                      
+                    
                   </div>
                 </form>
               </div>
@@ -127,6 +151,6 @@ function Addstock() {
       {/*Section: Design Block*/}
     </div>
   );
-}
+    }
 
 export default Addstock;

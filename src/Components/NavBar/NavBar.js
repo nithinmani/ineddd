@@ -7,7 +7,7 @@ function NavBar() {
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-dde8ff">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#"><img className="logo" src={INEDLOGO} alt="" /></a>
+          <a className="navbar-brand" href="/"><img className="logo" src={INEDLOGO} alt="" /></a>
           <button
             className="navbar-toggler"
             type="button"
@@ -22,15 +22,15 @@ function NavBar() {
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 NavB">
               <li className="nav-item">
-                <a className="nav-link active" href="index.html">
+                <a className="nav-link active" href="/">
                   Home
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Tutorial</a>
+                <a className="nav-link" href="/Tutorial">Tutorial</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Profile</a>
+                <a className="nav-link" href="/register">Profile</a>
               </li>
             </ul>
             <form className="d-flex">

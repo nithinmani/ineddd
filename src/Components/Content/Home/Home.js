@@ -1,10 +1,12 @@
 import React from "react";
 import StockData from "../StockData/StockData";
 import "./Home.css";
+import News from '../News/News';
 
 function Home() {
   
-  var res;
+  var company;
+  
   const options = {
     method: "GET",
     headers: {
@@ -20,7 +22,6 @@ function Home() {
     .then((response) => response.json())
     .then((response) => {
       console.log(response["50"]);
-      res = response["1"];
       // var stock=response.map((d)=>{
       //   return d["1"].open;
 
@@ -28,24 +29,12 @@ function Home() {
       console.log(response);
     })
     .catch((err) => console.error(err));
-  // var open;
-  // fetch("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=30min&apikey=LNR75DOUABSD5QV6")
-  // .then(resp => {
-  //   if (!resp.ok) {
-  //     throw new Error(`HTTP error! status: ${resp.status}`);
-  //   }
-  //   return resp.json();
-  // })
-  // .then(data => {
-  //   const timeSeriesData = data["Time Series (5min)"];
-  //   let latest = timeSeriesData[Object.keys(timeSeriesData)[Object.keys(timeSeriesData).length - 1]]
-  //   console.log(latest["1. open"]);
-  //   open = latest["1. open"];
-  //   console.log(open);
-  // })
-  // .catch(error => {
-  //   console.error(`Error while fetching data: ${error.message}`);
-  // });
+ 
+  
+  // searchStockCompany(company){
+  //   return()
+
+  // }
 
   return (
     <div className="HomePage">
@@ -55,16 +44,20 @@ function Home() {
           <h2>Beware of small expenses,small holes can sink large ships.</h2>
           <div className="search">
             <div className="form-group">
-               <input type={"search"} list="options" className="form-control searchBox" placeholder="Search..."/>
+               <input type={"search"} list="options" className="form-control searchBox" placeholder="Search..." 
+              //  value={company}
+               />
                <datalist id="options">
-               <option value="Option 1"/>
-               <option value="Option 2"/>
-               <option value="Option 3"/>
-               <option value="Option 4"/>
-               <option value="Option 5"/>
+               <option value="TCS"/>
+               <option value="APPL"/>
+               <option value="MSFT"/>
+               <option value="ECOMPT"/>
+               <option value="CTS"/>
                </datalist>
             </div>
-            <button className="button btn-outline-success searchButtonHome">Search</button>
+            <button 
+            // onClick={searchStockCompany(company)} 
+            className="button btn-outline-success searchButtonHome">Search</button>
           </div>
         </div>
         <div className="col-lg-6 order-1 order-lg-2 " data-aos="fade-left">
@@ -76,6 +69,7 @@ function Home() {
         </div>
       </div>
       <StockData/>
+  
     </div>
   );
 }
