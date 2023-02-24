@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import INEDLOGO from './logo.jpg';
+import { Link } from 'react-router-dom';
+import { AppContext } from "../../App";
+import { useContext } from "react";
+
 
 function NavBar() {
+  localStorage.getItem("token");
+  const navigate = useNavigate();
+  // const { isLoggedIn } = useContext(AppContext);
+
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    var token = localStorage.getItem("token") ?? "";
+    if(token.length > 5) {
+      setLoggedIn(true)
+    } else {
+      setLoggedIn(false)
+    }
+  }, []);
+
+ 
   return (
     <div>
+
       <nav className="navbar navbar-expand-lg navbar-light bg-dde8ff">
         <div className="container-fluid">
           <a className="navbar-brand" href="/"><img className="logo" src={INEDLOGO} alt="" /></a>
@@ -30,10 +52,13 @@ function NavBar() {
                 <a className="nav-link" href="/Tutorial">Tutorial</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/register">Profile</a>
+              <Link className="nav-link"  to={isLoggedIn ?'/profile':'/register'}>
+              
+  Profile
+</Link>
               </li>
             </ul>
-            <form className="d-flex">
+            {/* <form className="d-flex">
               <input
                 className="form-control mr-2"
                 type="search"
@@ -43,7 +68,7 @@ function NavBar() {
               <button className="btn btn-outline-success SearchB" type="submit">
                 Search
               </button>
-            </form>
+            </form> */}
           </div>
         </div>
       </nav>

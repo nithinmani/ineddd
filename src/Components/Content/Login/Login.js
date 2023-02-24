@@ -1,12 +1,29 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState ,useContext,useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
+import { AppContext } from '../../../App';
 import './Login.css';
 import LoginCover from './LoginCover.jpg';
-function Login() {
+  function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+
+//neeeeeeeeeeeeeeewwwwwwwwwwwwwwww codeeeee
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+    }
+  }, []);
+//newwwwwwwwwwwwwwwwwwwwwwcodeeeeeeeeeeeee
+
+
+  const {setIsLoggedIn}=useContext(AppContext);
+
 
 	async function loginUser(event) {
 		event.preventDefault()
@@ -23,15 +40,18 @@ function Login() {
 		})
 
 		const data = await response.json()
-
+    
 		if (data.user) {
 			localStorage.setItem('token', data.user)
-			alert('Login successful')
+      console.log(localStorage.getItem('token'));
+			console.log('Login successful')
+      setIsLoggedIn(true);
 			navigate("/profile");
 		} else {
 			alert('Please check your username and password');
 		}
 	}
+
 
 
   return (

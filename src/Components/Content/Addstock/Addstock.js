@@ -1,37 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Addstock.css";
 import {useForm} from 'react-hook-form';
 
 function Addstock() {
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setToken(token);
+    console.log(token);
+  }, []);
   const {register,handleSubmit}=useForm();
   const onSubmit= async data=>{
+   console.log(data) 
     const DOP= data.DOP;
     const VOP= data.VOP;
     const stockVolume=data.stockVolume;
     const company = data.company
-    console.log(JSON.stringify({
-      DOP,
-      VOP,
-      stockVolume,company
-    }));
-    const response = await fetch("http://localhost:1337/api/Addstock", {
+    
+    const response = await fetch("http://localhost:1337/api/add-stock", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'x-access-token': token,
       },
       body: JSON.stringify({
         DOP,
         VOP,
-        stockVolume,company
+        stockVolume,
+        company
       }),
     });
+    const data1 = await response.json();
+    console.log(data1);
+
     }
   
 
   return (
     <div className="row"
       style={{
-       
         width: "100%",
         height: "100%",
         padding: "20px",

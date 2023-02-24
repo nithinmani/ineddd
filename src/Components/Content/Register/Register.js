@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { AppContext } from "../../../App";
+import { useContext } from "react";
 function Register() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const { isLoggedIn } = useContext(AppContext);
+  console.log(isLoggedIn);
   async function registerUser(event) {
     event.preventDefault();
     const response = await fetch("http://localhost:1337/api/register", {
@@ -117,21 +119,7 @@ function Register() {
                             </label>
                           </div>
                         </div>
-                        <div className="form-check d-flex justify-content-center mb-5">
-                          <input
-                            className="form-check-input me-2"
-                            type="checkbox"
-                            defaultValue=""
-                            id="form2Example3c"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="form2Example3"
-                          >
-                            I agree all statements in
-                            <a href="#!">Terms of service</a>
-                          </label>
-                        </div>
+
                         <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                           <button
                             type="submit"

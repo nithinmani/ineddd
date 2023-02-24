@@ -2,10 +2,59 @@ import React from "react";
 import StockData from "../StockData/StockData";
 import "./Home.css";
 import News from '../News/News';
+import { AppContext } from "../../../App";
+import { useContext,useEffect ,useState} from "react";
+import { useNavigate } from "react-router-dom";
+
 
 function Home() {
-  
+  // console.log(localStorage.getItem("token"));
+//   const [quote, setQuote] = useState('')
+// const [tempQuote, setTempQuote] = useState('')
+  // const navigate=useNavigate();
   var company;
+  // const { isLoggedIn } = useContext(AppContext);
+  // console.log(isLoggedIn);
+
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setToken(token);
+    console.log(token);
+  }, []);
+
+
+  //newcodeee testiiinggggggggggggggggggggggggggggggggggggggggg
+  // async function populateQuote() {
+	// 	const req = await fetch('http://localhost:1337/api/quote', {
+	// 		headers: {
+	// 			'x-access-token': localStorage.getItem('token'),
+	// 		},
+	// 	})
+
+	// 	const data = await req.json()
+	// 	if (data.status === 'ok') {
+	// 		setQuote(data.quote)
+	// 	} else {
+	// 		alert(data.error)
+	// 	}
+	// }
+
+	// useEffect(() => {
+	// 	const token = localStorage.getItem('token')
+	// 	if (token) {
+	// 		const user = jwt.decode(token)
+	// 		if (!user) {
+	// 			localStorage.removeItem('token')
+	// 			navigate('/login')
+	// 		} else {
+	// 			populateQuote()
+	// 		}
+	// 	}
+	// }, [])
+  //new cooooooooooooooodeeeeeeeeeeeeeeeee endingggggggggggggggggggggggg
+
   
   const options = {
     method: "GET",
@@ -17,7 +66,7 @@ function Home() {
 
   fetch(
     "https://latest-stock-price.p.rapidapi.com/price?Indices=NIFTY%2050",
-    options
+    options,
   )
     .then((response) => response.json())
     .then((response) => {
@@ -40,7 +89,7 @@ function Home() {
     <div className="HomePage">
       <div className="row">
         <div className="col-lg-6 p-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-          <h1 className="title">Market Forecast</h1>
+          <h1 className="title">MARKET FORECAST</h1>
           <h2>Beware of small expenses,small holes can sink large ships.</h2>
           <div className="search">
             <div className="form-group">
