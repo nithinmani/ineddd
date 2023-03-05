@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./NavBar.css";
-import INEDLOGO from './logo.jpg';
+import INEDLOGO from './INED LOGO.jpg';
 import { Link } from 'react-router-dom';
 import { AppContext } from "../../App";
 import { useContext } from "react";

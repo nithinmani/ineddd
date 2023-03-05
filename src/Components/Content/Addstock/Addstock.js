@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./Addstock.css";
 import {useForm} from 'react-hook-form';
-
+import { useNavigate } from "react-router-dom";
 function Addstock() {
   const [token, setToken] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -33,7 +34,7 @@ function Addstock() {
     });
     const data1 = await response.json();
     console.log(data1);
-
+    navigate('/profile');
     }
   
 
@@ -79,7 +80,7 @@ function Addstock() {
                   <select className="select p-3" {...register("company")}>
                     <option value={"TCS"}>TCS</option>
                     <option value={"GOOGLE"}>GOOGLE</option>
-                    <option value={"APPLE"}>APPLE</option>
+                    <option value={"AAPL"}>APPLE</option>
                     <option value={"AMAZON"}>AMAZON</option>
                     <option value={"SAMSUNG"}>SAMSUNG</option>
                     <option value={"INFOSYS"}>INFOSYS</option>

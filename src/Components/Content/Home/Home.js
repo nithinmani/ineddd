@@ -5,55 +5,19 @@ import News from '../News/News';
 import { AppContext } from "../../../App";
 import { useContext,useEffect ,useState} from "react";
 import { useNavigate } from "react-router-dom";
+import { TypeAnimation } from 'react-type-animation';
+
 
 
 function Home() {
-  // console.log(localStorage.getItem("token"));
-//   const [quote, setQuote] = useState('')
-// const [tempQuote, setTempQuote] = useState('')
-  // const navigate=useNavigate();
   var company;
-  // const { isLoggedIn } = useContext(AppContext);
-  // console.log(isLoggedIn);
 
   const [token, setToken] = useState("");
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
     console.log(token);
   }, []);
-
-
-  //newcodeee testiiinggggggggggggggggggggggggggggggggggggggggg
-  // async function populateQuote() {
-	// 	const req = await fetch('http://localhost:1337/api/quote', {
-	// 		headers: {
-	// 			'x-access-token': localStorage.getItem('token'),
-	// 		},
-	// 	})
-
-	// 	const data = await req.json()
-	// 	if (data.status === 'ok') {
-	// 		setQuote(data.quote)
-	// 	} else {
-	// 		alert(data.error)
-	// 	}
-	// }
-
-	// useEffect(() => {
-	// 	const token = localStorage.getItem('token')
-	// 	if (token) {
-	// 		const user = jwt.decode(token)
-	// 		if (!user) {
-	// 			localStorage.removeItem('token')
-	// 			navigate('/login')
-	// 		} else {
-	// 			populateQuote()
-	// 		}
-	// 	}
-	// }, [])
-  //new cooooooooooooooodeeeeeeeeeeeeeeeee endingggggggggggggggggggggggg
 
   
   const options = {
@@ -71,30 +35,35 @@ function Home() {
     .then((response) => response.json())
     .then((response) => {
       console.log(response["50"]);
-      // var stock=response.map((d)=>{
-      //   return d["1"].open;
-
-      // })
       console.log(response);
     })
     .catch((err) => console.error(err));
  
   
-  // searchStockCompany(company){
-  //   return()
-
-  // }
 
   return (
     <div className="HomePage">
       <div className="row">
         <div className="col-lg-6 p-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
           <h1 className="title">MARKET FORECAST</h1>
-          <h2>Beware of small expenses,small holes can sink large ships.</h2>
+          <TypeAnimation
+      sequence={[
+        'Beware of small expenses', // Types 'One'
+        1000, // Waits 1s
+        'Beware of small expenses,small holes can sink large ships.', // Deletes 'One' and types 'Two'
+        
+        () => {
+          // console.log('Done typing!'); // Place optional callbacks anywhere in the array
+        }
+      ]}
+      wrapper="div"
+      cursor={true}
+      repeat={Infinity}
+      style={{ fontSize: '2em',fontWeight:"bolder" }}
+    />
           <div className="search">
             <div className="form-group">
                <input type={"search"} list="options" className="form-control searchBox" placeholder="Search..." 
-              //  value={company}
                />
                <datalist id="options">
                <option value="TCS"/>
@@ -105,7 +74,6 @@ function Home() {
                </datalist>
             </div>
             <button 
-            // onClick={searchStockCompany(company)} 
             className="button btn-outline-success searchButtonHome">Search</button>
           </div>
         </div>
