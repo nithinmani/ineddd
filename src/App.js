@@ -7,7 +7,9 @@ import Register from './Components/Content/Register/Register';
 import Portfolio from './Components/Content/Portfolio/Portfolio';
 import Addstock from './Components/Content/Addstock/Addstock';
 import Tutorial from './Components/Content/Tutorial/Tutorial';
+import Footer from "./Components/Footer/footer"
 import { useState ,createContext} from 'react';
+import ForgotPassword from './Components/Content/ForgotPassword/ForgotPassword';
 export const AppContext=createContext();
 
 function App() {
@@ -27,8 +29,10 @@ function App() {
         <Route path="/register" element={<Register/>}/>
         <Route path="/Addstock" element={<Addstock/>}/>
         <Route path="Tutorial" element={<Tutorial/>}/>
+        <Route path="/forgotPassword" element={<ForgotPassword/>}/>
         </Routes>
       </div>
+      <Footer/>
     </div>
     </AppContext.Provider>
   );

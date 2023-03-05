@@ -1,24 +1,22 @@
-.HomePage{
-    padding-left: 20px;
 
-}
-.mainImg{
+/* .mainImg{
     width: 100%;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: right top;
     margin-top: 70px;
     padding: 60px 0;
-}
+} */
 
 .searchBox{
-    max-width:fit-content;
+   
     border-color: blue;
-    border-radius: 2opx;
+    border-radius: 20px;
 }
 .search{
-    margin-top: 2rem;
+    margin-top: 4rem;
     display: flex;
+    
 }
 
 .title{
@@ -45,6 +43,35 @@
     background-color: black;
     color: white;
 }
+.searchButtonHome{
+    background-color: rgb(255, 255, 255);
+    width: 70%;
+    height: 100%;
+}
+.leftHome{
+    background-image: linear-gradient(to top, #0a0120, #02010f);
+}
 
 
+ 
+  .homefirst{
+    margin: 0;
+  }
+.HomePage{
+    margin: 0;
+
+}
 /*newcss*/
+.about{
+    justify-content: center;
+    
+}
+.dropdown-container {
+    width: 100%;
+  }
+
+  @media (max-width: 800px) {
+    .videoTag {
+      display: none;
+    }
+  }

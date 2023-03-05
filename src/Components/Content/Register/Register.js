@@ -1,17 +1,60 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { AppContext } from "../../../App";
 import { useContext } from "react";
+
 function Register() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // new state variable
   const { isLoggedIn } = useContext(AppContext);
-  console.log(isLoggedIn);
+
   async function registerUser(event) {
     event.preventDefault();
+
+    if (name === "") {
+      setErrorMessage("Please enter your name");
+      return;
+    }
+
+    if (email === "") {
+      setErrorMessage("Please enter your email");
+      return;
+    }
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setErrorMessage("Please enter a valid email");
+      return;
+    }
+
+    if (password.length < 6) {
+      setErrorMessage("Password must be at least 6 characters long");
+      return;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      setErrorMessage("Password must contain at least one capital letter");
+      return;
+    }
+
+    if (!/[\W_]/.test(password)) {
+      setErrorMessage("Password must contain at least one symbol");
+      return;
+    }
+
+    if (confirmPassword === "") {
+      setErrorMessage("Please confirm your password");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match");
+      return;
+    }
+
     const response = await fetch("http://localhost:1337/api/register", {
       method: "POST",
       headers: {
@@ -23,11 +66,17 @@ function Register() {
         password,
       }),
     });
+
     const data = await response.json();
     console.log(data);
 
     if (data.status === "ok") {
       navigate("/login");
+    } else if (data.error === "Duplicate email") {
+      // check for duplicate email error
+      setErrorMessage("An account with this email already exists");
+    } else {
+      setErrorMessage("Registration failed, please try again later");
     }
   }
 
@@ -44,6 +93,9 @@ function Register() {
                       <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
                         Sign up
                       </p>
+                      {errorMessage && ( // render error message if it exists
+                        <div className="alert alert-danger">{errorMessage}</div>
+                      )}
                       <form className="mx-1 mx-md-4" onSubmit={registerUser}>
                         <div className="d-flex flex-row align-items-center mb-4">
                           <i className="fas fa-user fa-lg me-3 fa-fw" />
@@ -110,12 +162,16 @@ function Register() {
                               id="form3Example4cd"
                               className="form-control"
                               name="repeatPassword"
+                              value={confirmPassword}
+                              onChange={(e) =>
+                                setConfirmPassword(e.target.value)
+                              }
                             />
                             <label
                               className="form-label"
                               htmlFor="form3Example4cd"
                             >
-                              Repeat your password
+                              Confirm your Password
                             </label>
                           </div>
                         </div>

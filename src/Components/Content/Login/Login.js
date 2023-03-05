@@ -8,6 +8,8 @@ import LoginCover from './LoginCover.jpg';
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
 //neeeeeeeeeeeeeeewwwwwwwwwwwwwwww codeeeee
   const [user, setUser] = useState();
@@ -27,6 +29,18 @@ import LoginCover from './LoginCover.jpg';
 
 	async function loginUser(event) {
 		event.preventDefault()
+    setEmailError('');
+    setPasswordError('');
+
+    if (!email) {
+      setEmailError('Email is required.');
+      return;
+    }
+
+    if (!password) {
+      setPasswordError('Password is required.');
+      return;
+    }
 
 		const response = await fetch('http://localhost:1337/api/login', {
 			method: 'POST',
@@ -40,6 +54,15 @@ import LoginCover from './LoginCover.jpg';
 		})
 
 		const data = await response.json()
+    if (data.error === 'Invalid login') {
+      setEmailError('Account with this email does not exist.');
+      return;
+    }
+
+    if (data.error === 'Password is incorrect') {
+      setPasswordError('Password is incorrect.');
+      return;
+    }
     
 		if (data.user) {
 			localStorage.setItem('token', data.user)
@@ -48,7 +71,7 @@ import LoginCover from './LoginCover.jpg';
       setIsLoggedIn(true);
 			navigate("/profile");
 		} else {
-			alert('Please check your username and password');
+			alert('error');
 		}
 	}
 
@@ -98,6 +121,7 @@ import LoginCover from './LoginCover.jpg';
                     <label className="form-label" htmlFor="form2Example17">
                       Email address
                     </label>
+                    <p style={{color:"red",fontWeight:"bold"}}>{emailError}</p>
                   </div>
                   <div className="form-outline mb-4">
                     <input
@@ -110,6 +134,7 @@ import LoginCover from './LoginCover.jpg';
                     <label className="form-label" htmlFor="form2Example27">
                       Password
                     </label>
+                    <p style={{color:"red",fontWeight:"bold"}}>{passwordError}</p>
                   </div>
                   <div className="pt-1 mb-4">
                     
@@ -125,7 +150,7 @@ import LoginCover from './LoginCover.jpg';
                       {/* </a> */}
                     
                   </div>
-                  <a className="small text-muted" href="#!">
+                  <a className="small text-muted" href="/forgotPassword">
                     Forgot password?
                   </a>
                   <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>

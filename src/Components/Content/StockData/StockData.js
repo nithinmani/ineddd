@@ -50,7 +50,7 @@ export default function StockList() {
         <table className="TopGainerTable">
           <thead>
             <tr className="TopGainerHead">
-              <th className="bg-success text-white">Symbol</th>
+              <th className="bg-success text-white p-3">Symbol</th>
               <th className="bg-success text-white">Open</th>
               <th className="bg-success text-white">High</th>
               <th className="bg-success text-white">Low</th>
@@ -58,14 +58,14 @@ export default function StockList() {
               <th className="bg-success text-white">%Change</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="p-3">
             {topGainers.map((topGainer, index) => (
               <tr key={index}>
-                <td>{topGainer.symbol}</td>
-                <td>{topGainer.open}</td>
-                <td>{topGainer.dayHigh}</td>
-                <td>{topGainer.dayLow}</td>
-                <td>{topGainer.lastPrice}</td>
+                <td className="p-3">{topGainer.symbol}</td>
+                <td>&#8377;{topGainer.open}</td>
+                <td>&#8377;{topGainer.dayHigh}</td>
+                <td>&#8377;{topGainer.dayLow}</td>
+                <td>&#8377;{topGainer.lastPrice}</td>
                 <td className="text-success">{topGainer.pChange}%</td>
               </tr>
             ))}
@@ -77,7 +77,7 @@ export default function StockList() {
         <table className="TopGainerTable">
           <thead>
             <tr>
-              <th className="bg-danger text-white">Symbol</th>
+              <th className="bg-danger text-white p-3">Symbol</th>
               <th className="bg-danger text-white">Open</th>
               <th className="bg-danger text-white">High</th>
               <th className="bg-danger text-white">Low</th>
@@ -86,14 +86,14 @@ export default function StockList() {
             <th className="bg-danger text-white">%Change</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="p-3">
           {topLosers.map((topLosers, index) => (
             <tr key={index}>
-              <td>{topLosers.symbol}</td>
-              <td>{topLosers.open}</td>
-              <td>{topLosers.dayHigh}</td>
-              <td>{topLosers.dayLow}</td>
-              <td>{topLosers.lastPrice}</td>
+              <td className="p-3">{topLosers.symbol}</td>
+              <td>&#8377;{topLosers.open}</td>
+              <td>&#8377;{topLosers.dayHigh}</td>
+              <td>&#8377;{topLosers.dayLow}</td>
+              <td>&#8377;{topLosers.lastPrice}</td>
               <td className="text-danger">{topLosers.pChange}%</td>
             </tr>
           ))}

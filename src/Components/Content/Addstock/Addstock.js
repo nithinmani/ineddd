@@ -1,72 +1,111 @@
 import React, { useEffect, useState } from "react";
 import "./Addstock.css";
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from "react-router-dom";
+
 function Addstock() {
   const [token, setToken] = useState("");
   const navigate = useNavigate();
+  const [user, setUser] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
+  useEffect(() => {
+    async function getUser() {
+      const token = localStorage.getItem("token");
+      setToken(token);
+      try {
+        const response = await fetch("http://localhost:1337/api/get-user", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": token,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);
+        } else {
+          throw new Error('Failed to fetch user data');
+        }
+      } catch (err) {
+        console.error(err);
+        setErrorMessage('Failed to fetch user data');
+      }
+    }
+    getUser();
+  }, []);
+ 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
     console.log(token);
   }, []);
-  const {register,handleSubmit}=useForm();
-  const onSubmit= async data=>{
-   console.log(data) 
-    const DOP= data.DOP;
-    const VOP= data.VOP;
-    const stockVolume=data.stockVolume;
+
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = async (data) => {
+    console.log(data) 
+    const DOP = data.DOP;
+    const VOP = data.VOP;
+    const stockVolume = data.stockVolume;
     const company = data.company
-    
-    const response = await fetch("http://localhost:1337/api/add-stock", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        'x-access-token': token,
-      },
-      body: JSON.stringify({
-        DOP,
-        VOP,
-        stockVolume,
-        company
-      }),
-    });
-    const data1 = await response.json();
-    console.log(data1);
-    navigate('/profile');
+
+    try {
+      const response = await fetch("http://localhost:1337/api/add-stock", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'x-access-token': token,
+        },
+        body: JSON.stringify({
+          DOP,
+          VOP,
+          stockVolume,
+          company
+        }),
+      });
+      if (response.ok) {
+        const data1 = await response.json();
+        console.log(data1);
+        navigate('/profile');
+      } else {
+        throw new Error('Failed to add stock');
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMessage('Failed to add stock');
     }
-  
+  }
 
   return (
-    <div className="row"
+    <div className="row addStockPage"
       style={{
         width: "100%",
         height: "100%",
         padding: "20px",
       }}
     >
-      <div className="AddStockPage col-lg-12 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+      <div className="AddStockPage col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
         <div className="row">
           <div className="col-md-8">
             <div className="card mb-4">
-              <div className="card-body">
-                <p className="text-uppercase fw-bold mb-3 text-font">Name</p>
+              <div className="card-body userCard">
+                <p className="text-uppercase fw-bold mb-3 text-font ">Name: {user.user?.name}</p>
                 <div className="row">
                   <div className="col-md-4">
-                    <p>Name of user</p>
+                    <p className="">{user.user?.name}</p>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-md-4">
-                    <p className="text-uppercase fw-bold mb-3 text-font">
-                      Email
+                    <p className="text-uppercase fw-bold mb-3 text-font ">
+                      EMAIL: 
                     </p>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-md-4">
-                    <p>your-email@gmail.com</p>
+                    <p className="">{user.user?.email}</p>
                   </div>
                 </div>
               </div>
@@ -74,25 +113,29 @@ function Addstock() {
           </div>
           <div className="col-md-8">
             <div className="card mb-4">
-              <div className="card-body">
+              <div className="card-body companyCard">
                 <p className="text-uppercase h4 text-font">Company:</p>
                 <div className="row">
                   <select className="select p-3" {...register("company")}>
                     <option value={"TCS"}>TCS</option>
-                    <option value={"GOOGLE"}>GOOGLE</option>
-                    <option value={"AAPL"}>APPLE</option>
-                    <option value={"AMAZON"}>AMAZON</option>
-                    <option value={"SAMSUNG"}>SAMSUNG</option>
-                    <option value={"INFOSYS"}>INFOSYS</option>
-                    <option value={"EY"}>EY</option>
-                    <option value={"IBS"}>IBS</option>
+                    <option value={"ADANIPORTS"}>ADANI PORTS</option>
+                    <option value={"TATASTEEL"}>TATA STEEL</option>
+                    <option value={"HDFCBANK"}>HDFC BANK</option>
+                    <option value={"TATAMOTORS"}>TATA MOTORS</option>
+                    <option value={"ICICIBANK"}>ICICI BANK</option>
+                    <option value={"BAJAJAFINSV"}>BAJAJ FINSERV</option>
+                    <option value={"RELIANCE"}>RELIANCE</option>
+                    <option value={"JSWSTEEL"}>JSW STEEL</option>
+                    <option value={"ITC"}>ITC</option>
+                    <option value={"CIPLA"}>CIPLA</option>
+                    <option value={"INFY"}>INFOSYS</option>
                   </select>
                 </div>
               </div>
             </div>
           </div>
           <div className="col-md-8 mb-4">
-            <div className="card mb-4">
+            <div className="card mb-4 stockCard">
               <div className="card-header py-3">
                 <h5 className="mb-0 text-font text-uppercase">Stock Details</h5>
               </div>
@@ -116,10 +159,9 @@ function Addstock() {
                   {/* Text input */}
                   <div className="form-outline mb-4">
                     <label className="form-label" htmlFor="form11Example3">
-                      Stock value on the date of purchase
+                      Total stock value on the date of purchase
                     </label>
                     <input
-                      type="number"
                       id="form11Example3"
                       className="form-control"
                       {...register("VOP")}
@@ -144,7 +186,6 @@ function Addstock() {
                       className="btn button-order col-md-10 bg-success text-white"
                     > Add stock
                         </button>
-                      
                     
                   </div>
                 </form>
@@ -153,11 +194,11 @@ function Addstock() {
           </div>
           
         </div>
+        
       </div>
-      {/* <div className="col-lg-2 order-1 order-lg-2 " >
-            <img className="SideImg" src="https://img.freepik.com/free-vector/business-man-has-idea-with-gold-coin-his-hand_1150-35033.jpg?w=740&t=st=1676425493~exp=1676426093~hmac=730d3fe51cc3dbc67f53bbe8467864b211d5caeba28529cf6b6e1d3440d90296" alt="" />
-      </div> */}
-      {/*Section: Design Block*/}
+     <div className="col-6 rightpart">
+      
+     </div>
     </div>
   );
     }
